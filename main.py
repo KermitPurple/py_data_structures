@@ -68,6 +68,12 @@ class LinkedList:
             n = n.next
         return string
 
+    def __iter__(self):
+        n = self.head
+        while n:
+            yield n.val
+            n = n.next
+
     @staticmethod
     def from_iter(it) -> 'LinkedList':
         l = LinkedList()
@@ -174,6 +180,8 @@ if __name__ == '__main__':
     l2.reverse()
     print(l)
     print(l2)
+    for i in l:
+        print(i, end=', ')
     tree = BinaryTree()
     for i in [5, 3, 7, 4, 6, 2, 8, 9, 10]:
         tree.insert(i)
