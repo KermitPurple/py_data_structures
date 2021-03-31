@@ -53,6 +53,87 @@ class LinkedList:
             l.push(i)
         return l
 
+class TreeNode:
+    def __init__(self, val: any, left: 'TreeNode' = None, right: 'TreeNode' = None, parent: 'TreeNode' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.parent = parent
+
+    def leftmost(self):
+        if self.left is None:
+            return self
+        return self.left.leftmost()
+
+    def rightmost(self):
+        if self.right is None:
+            return self
+        return self.right.rightmost()
+
+    def insert(self, val: any):
+        if val < self.val:
+            if self.left is None:
+                self.left = TreeNode(val, parent = self)
+            else:
+                self.left.insert(val)
+        else:
+            if self.right is None:
+                self.right = TreeNode(val, parent = self)
+            else:
+                self.right.insert(val)
+
+    def remove(self, val: any):
+        if val == self.val:
+            self.delete()
+        elif val < self.val and self.left is not None:
+            self.left.remove(val)
+        elif val > self.val and self.right is not None:
+            self.right.remove(val)
+
+    def delete(self):
+        is_left_child = self.parent.left is self
+        if self.left is None and self.right is None:
+            if is_left_child:
+                self.parent.left = None
+            else:
+                self.parent.right = None
+
+    def print_LNR(self):
+        if self.left:
+            self.left.print_LNR()
+        print(self.val, end=' ')
+        if self.right:
+            self.right.print_LNR()
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, val: any):
+        if self.root is None:
+            self.root = TreeNode(val)
+        else:
+            self.root.insert(val)
+
+    def remove(self, val: any):
+        self.root.remove(val)
+
+    def print_file_system(self):
+        self._print_file_system(self.root)
+
+    def _print_file_system(self, root: TreeNode, depth: int = 0):
+        if root is None:
+            return
+        print('│ ' * (depth - 1) + '├─' * (depth > 0) + str(root.val))
+        depth += 1
+        self._print_file_system(root.left, depth)
+        self._print_file_system(root.right, depth)
+
+    def print_LNR(self):
+        if self.root is not None:
+            self.root.print_LNR()
+        print()
+
 if __name__ == '__main__':
     q = Queue()
     for i in range(10):
@@ -66,3 +147,11 @@ if __name__ == '__main__':
         print(s.pop())
     l = LinkedList.from_iter([2, 5, 3, 1, 6])
     print(l)
+    tree = BinaryTree()
+    for i in [5, 3, 7, 4, 6, 2, 8, 9, 10]:
+        tree.insert(i)
+    tree.print_file_system()
+    tree.print_LNR()
+    tree.remove(10)
+    tree.print_file_system()
+    tree.print_LNR()
