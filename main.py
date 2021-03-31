@@ -36,6 +36,28 @@ class LinkedList:
                 n = n.next
             n.next = ListNode(item)
 
+    def reverse(self):
+        n = self.head
+        prev = None
+        while n:
+            n.next, n, prev = prev, n.next, n
+        self.head = prev
+
+    def copy(self) -> 'LinkedList':
+        n = self.head
+        new_list = LinkedList()
+        curr = None
+        while n:
+            new_node = ListNode(n.val)
+            if new_list.head:
+                curr.next = new_node
+                curr = curr.next
+            else:
+                new_list.head = new_node
+                curr = new_list.head
+            n = n.next
+        return new_list
+
     def __repr__(self):
         string = ''
         n = self.head
@@ -147,6 +169,11 @@ if __name__ == '__main__':
         print(s.pop())
     l = LinkedList.from_iter([2, 5, 3, 1, 6])
     print(l)
+    l2 = l.copy()
+    print(l2)
+    l2.reverse()
+    print(l)
+    print(l2)
     tree = BinaryTree()
     for i in [5, 3, 7, 4, 6, 2, 8, 9, 10]:
         tree.insert(i)
