@@ -15,6 +15,23 @@ class Stack(Queue):
     def pop(self) -> any:
         return self.items.pop()
 
+class LinkedStack:
+    def __init__(self):
+        self.head = None
+
+    def push(self, val):
+        self.head = ListNode(val, self.head)
+
+    def pop(self):
+        if self.head is None:
+            raise ValueError("Stack is empty")
+        val = self.head.val
+        self.head = self.head.next
+        return val
+
+    def empty(self) -> bool:
+        return self.head is None
+
 class ListNode:
     def __init__(self, val: any, next: 'ListNode' = None):
         self.val = val
